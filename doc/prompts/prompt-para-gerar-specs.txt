@@ -1,0 +1,182 @@
+Descrição Preliminar do Sistema de Atendimento
+Este documento descreve o projeto preliminar para um Sistema de Atendimento com foco em clientes, atendentes e administradores. O sistema visa facilitar o registro, acompanhamento e resolução de solicitações de clientes.
+1. Usuários e Casos de Uso
+O sistema suportará os seguintes tipos de usuários e casos de uso:
+Usuários
+Tipo de Usuário
+Descrição
+Cadastro
+Proprietário
+Usuário com acesso ao sistema para cadastrar usuários administradores. 
+Definido inicialmente ou cadastrado por outros proprietários. 
+Administrador
+Usuário com acesso total para gerenciar o sistema, incluindo o cadastro de atendentes. Deve haver um administrador inicial.
+
+Cadastrado apenas por usuário proprietário.
+Atendente
+Usuário responsável por visualizar, responder e gerenciar solicitações (tickets) dos clientes.
+Cadastrado pelo Administrador.
+Cliente
+Usuário que envia novas solicitações (tickets) e acompanha o status de seus pedidos.
+Autocadastro.
+
+Casos de Uso
+Enviar/Consultar Solicitação (Cliente): O cliente pode abrir novos tickets de suporte e visualizar o histórico e o status de suas solicitações existentes. 
+Responder Solicitação (Atendente): O atendente pode visualizar e responder às solicitações dos clientes, atualizando o status do ticket. Deve-se armazenar o log da operação de cadastro.
+CRUD de Usuários Atendentes (Administrador): O administrador pode Criar, Ler, Atualizar e Deletar contas de usuários atendentes. Deve-se armazenar o log da operação de cadastro. 
+CRUD de Usuários Administradores (Proprietário): O proprietário pode Criar, Ler, Atualizar e Deletar contas de usuários administradores. Deve-se armazenar o log da operação de cadastro. 
+CRUD de Usuários Proprietários (Proprietário): O proprietário pode Criar, Ler, Atualizar e Deletar contas de usuários proprietários. Deve-se armazenar o log da operação de cadastro. 
+Relatórios Gerenciais (Administrador): Geração de relatórios sobre o volume de tickets, tempo médio de resposta, etc. A apresentação do relatório deve oferecer as opções de visualização geral, específica relacionada a algum atendente específico ou relacionada aos atendentes cadastrados por determinado administrador .  
+2. Arquitetura
+A arquitetura do sistema será uma arquitetura em camadas, utilizando o padrão Model-View-Controller (MVC) implementado com o framework Flask.
+
+Camada de Apresentação (View): Interface do usuário desenvolvida com Jinja2 para a renderização de templates e Bootstrap para o design responsivo.
+Camada de Lógica de Negócio (Controller): Implementada em Python utilizando o Flask, responsável por processar as requisições, interagir com o modelo e selecionar a View apropriada.
+Camada de Dados (Model): Representa a estrutura dos dados e a lógica de acesso ao banco de dados SQLite.
+
+O sistema será containerizado usando Docker para garantir a portabilidade e a execução consistente em diferentes ambientes.
+3. Plataforma Tecnológica
+O projeto utilizará as seguintes tecnologias:
+
+Linguagem de Programação: Python
+Framework Web: Flask
+Template Engine: Jinja2
+Frontend/Estilização: Bootstrap
+Banco de Dados: SQLite (para facilidade e desenvolvimento inicial)
+Containerização: Docker
+Controle de Versão: GitHub
+
+O código-fonte será armazenado em um repositório GitHub, conectado a uma conta online para colaboração e histórico de versões.
+4. Estrutura de Diretórios
+A seguir, a estrutura de diretórios padrão recomendada para a aplicação Flask:
+
+├── atendimento_system/
+│   ├── app/
+│   │   ├── static/             # Arquivos estáticos (CSS, JS, Imagens)
+│   │   │   ├── css/
+│   │   │   ├── js/
+│   │   │   └── img/
+│   │   ├── templates/          # Templates Jinja2 (Views)
+│   │   ├── models/             # Modelos de dados
+│   │   ├── controllers/        # Controladores (Rotas Flask)
+│   │   ├── utils/              # Funções de utilidade
+│   │   ├── __init__.py         # Inicialização do aplicativo
+│   │   └── database.py         # Configuração do DB
+│   ├── config.py               # Configurações do ambiente
+│   ├── run.py                  # Ponto de entrada da aplicação
+│   ├── requirements.txt        # Dependências do Python
+│   ├── Dockerfile              # Definição do container Docker
+│   └── .env.example            # Exemplo de variáveis de ambiente
+5. Convenções
+A aderência às seguintes convenções é fundamental para a manutenibilidade do código:
+
+Nomenclatura (Python): Seguir o padrão PEP 8.
+Variáveis, funções e métodos: snake_case (ex: calcular_media).
+Classes: CamelCase (ex: UsuarioModel).
+Constantes: UPPER_SNAKE_CASE (ex: ADMIN_ROLE).
+SQLAlchemy/Modelos: Nomes de classes no singular (ex: Cliente), nomes de tabelas no plural e snake_case (ex: clientes).
+Templates (Jinja2): Usar a extensão .html e manter a estrutura limpa e modular.
+Commits (Git): Seguir um padrão de mensagens claro (ex: feat: adiciona funcionalidade de cadastro de cliente, fix: corrige bug de login).
+6. Serviços
+O sistema será construído em torno de serviços principais:
+
+Serviço de Autenticação: Gerencia o login e logout de todos os tipos de usuários. Clientes se autocadastram, Atendentes são cadastrados pelo Administrador. Adicione a opção de autenticação OAuth via Google.
+Serviço de Usuários: CRUD (Create, Read, Update, Delete) de Atendentes (exclusivo para Administradores) e gerenciamento de perfis de Clientes.
+Serviço de Tickets/Solicitações: Criação, consulta, atualização de status e resposta a tickets.
+Serviço de Relatórios: Extração e processamento de dados para geração de relatórios gerenciais para o Administrador.
+7. Variáveis de Ambiente
+As configurações sensíveis e específicas do ambiente de execução serão gerenciadas via variáveis de ambiente, conforme definido no arquivo Dockerfile e acessadas pelo config.py.
+
+Abaixo estão as variáveis de ambiente essenciais:
+
+Variável
+Uso
+Exemplo de Valor
+SECRET_KEY
+Chave secreta do Flask para segurança de sessão.
+ File
+DATABASE_PATH
+Caminho para o arquivo SQLite.
+app/db/atendimento.db
+PROPRIETARIO_EMAIL
+Email do administrador inicial.
+admin@empresa.com
+PROPRIETARIO_PASSWORD
+Senha inicial para o administrador.
+ File
+DEBUG_MODE
+Define se a aplicação está em modo debug.
+False ou True
+
+8. Definição de Usuários e Fluxo de Cadastro
+Estrutura de Cadastro
+A gestão de usuários segue a lógica de privilégios:
+
+Proprietário: Um usuário proprietário deve ser provisionado no primeiro deploy da aplicação (variáveis de ambiente) para garantir que haja alguém com permissão para gerenciar proprietários e administradores.
+Administradores: A rota de cadastro de administradores deve ser restrita aos proprietários e deve fazer parte do painel de administração do proprietário. O Proprietário é responsável por definir as credenciais iniciais dos administradores.
+
+
+Clientes: O sistema deve oferecer uma rota de cadastro (/register ou similar) onde o Cliente pode criar sua própria conta, sem a necessidade de aprovação.
+Atendentes: A rota de cadastro de atendentes deve ser restrita ao Administrador e deve fazer parte do painel de administração do Administrador. O Administrador é responsável por definir as credenciais iniciais do Atendente.
+Os usuários devem ter opção de alterar senha. 
+
+O Administrador deverá acessar o painel de gerenciamento para adicionar novos Atendentes, conforme demonstra a representação abaixo:
+
+[Fluxo de adição de administradores e proprietários pelo proprietário]
+
+Etapa
+Ação
+Usuário
+1
+Acessar Painel de Proprietário
+Proprietário
+2
+Navegar para Gestão de Administradores ou Gestão de Proprietários
+Proprietário
+3
+Inserir Dados do Novo Usuário (administrador ou proprietário)
+Proprietário
+4
+Cadastro de usuário Concluído
+Proprietário
+
+
+[Fluxo de adição de atendentes pelo administrador]
+
+Etapa
+Ação
+Usuário
+1
+Acessar Painel de Admin
+Administrador
+2
+Navegar para Gestão de Atendentes
+Administrador
+3
+Inserir Dados do Novo Atendente
+Administrador
+4
+Cadastro de Atendente Concluído
+Administrador
+
+
+
+
+A partir da descrição do sistema acima, gere a respectiva especificação. 
+4. Especificação (Spec)
+
+4.1 
+Formato:
+
+    /path/do/arquivo
+    - ação: criar | modificar | consultar
+    - descrição
+    - pseudocódigo
+
+4.2 As especificações devem ser 
+
+* Determinísticas
+* Granulares
+* Sem ambiguidades
+
+As especificações devem ser geradas em formato markdown.  

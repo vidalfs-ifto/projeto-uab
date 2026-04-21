@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h2>Bem-vindo ao Dashboard</h2>
+        <p>Você está logado como <strong>{{ session.usuario_role }}</strong>.</p>
+        <hr>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/tickets" class="btn btn-primary btn-lg">Ver Tickets</a>
+            {% if session.usuario_role == 'CLIENTE' %}
+                <a href="/tickets" class="btn btn-success btn-lg">Novo Ticket</a>
+            {% endif %}
+            {% if session.usuario_role in ['ADMINISTRADOR', 'PROPRIETARIO'] %}
+                <a href="/admin/relatorios" class="btn btn-info btn-lg">Relatórios Gerenciais</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

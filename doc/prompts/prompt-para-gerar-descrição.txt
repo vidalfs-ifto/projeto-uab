@@ -1,0 +1,30 @@
+Sistema de atendimento 
+Usuários:
+Clientes
+Atendentes
+Administradores
+Casos de uso:
+Enviar/consultar solicitação
+Responder solicitação
+CRUD de usuários atendentes 
+Relatórios gerenciais
+
+Faça a descrição do projeto para o sistema da descrição acima. 
+
+O documento deve conter: 
+* Arquitetura
+  
+* Plataforma tecnológica composta basicamente por framework flask, linguagem Python, Jinja 2, bootstrap, e SQLite. A estrutura vai estar em contêiner Docker em que rodará o controlador de versões GitHub conectado a uma conta online. 
+  
+* Estrutura de diretórios
+  
+* Convenções
+  
+* Serviços
+  
+* Variáveis de ambiente
+  
+* Definir usuários: administrador, atendente e cliente. 
+Os clientes se autocadastram. 
+Os atendentes são cadastrados por um administrador. 
+Deve haver um administrador inicial. 

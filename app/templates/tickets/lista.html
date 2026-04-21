@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-{% if session.usuario_role == 'CLIENTE' %}8{% else %}12{% endif %}">
+        <h3>Lista de Tickets</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Assunto</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.assunto }}</td>
+                    <td><span class="badge bg-info">{{ ticket.status }}</span></td>
+                    <td>
+                        {% if session.usuario_role in ['ATENDENTE', 'ADMINISTRADOR', 'PROPRIETARIO'] %}
+                        <form action="/tickets/{{ ticket.id }}/responder" method="POST" class="d-inline">
+                            <select name="status" class="form-select form-select-sm d-inline w-auto">
+                                <option value="ABERTO" {% if ticket.status == 'ABERTO' %}selected{% endif %}>ABERTO</option>
+                                <option value="EM_ANDAMENTO" {% if ticket.status == 'EM_ANDAMENTO' %}selected{% endif %}>EM ANDAMENTO</option>
+                                <option value="RESOLVIDO" {% if ticket.status == 'RESOLVIDO' %}selected{% endif %}>RESOLVIDO</option>
+                                <option value="FECHADO" {% if ticket.status == 'FECHADO' %}selected{% endif %}>FECHADO</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-warning">Atualizar</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if session.usuario_role == 'CLIENTE' %}
+    <div class="col-md-4">
+        <h3>Abrir Novo Ticket</h3>
+        <form action="/tickets/novo" method="POST">
+            <div class="mb-3">
+                <label>Assunto</label>
+                <input type="text" name="assunto" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label>Descrição</label>
+                <textarea name="descricao" class="form-control" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Abrir Ticket</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

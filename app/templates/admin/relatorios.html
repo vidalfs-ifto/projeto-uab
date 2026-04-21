@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h3>Relatórios Gerenciais</h3>
+        <div class="btn-group mb-4">
+            <a href="?tipo=geral" class="btn btn-outline-primary {% if filtro == 'geral' %}active{% endif %}">Geral</a>
+            <a href="?tipo=por_admin" class="btn btn-outline-primary {% if filtro == 'por_admin' %}active{% endif %}">Meus Atendentes</a>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <h4>Resultado: {{ filtro|capitalize }}</h4>
+                <p>Total de Tickets: <strong>{{ relatorio.total }}</strong></p>
+                {% if relatorio.por_status %}
+                    <ul>
+                    {% for status, count in relatorio.por_status %}
+                        <li>{{ status }}: {{ count }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if relatorio.atendentes_count %}
+                    <p>Atendentes sob sua gestão: <strong>{{ relatorio.atendentes_count }}</strong></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
