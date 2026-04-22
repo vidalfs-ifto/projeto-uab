@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "minha_chave_padrao")
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(os.getcwd(), os.getenv("DATABASE_PATH", "app/db/atendimento.db"))
