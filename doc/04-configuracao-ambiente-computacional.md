@@ -1,6 +1,14 @@
+IFTO / UAB - Campus Araguatins
+
+# Curso de pós-graduação lato sensu em Desenvolvimento de Sistemas Computacionais
+
+# Discipina Desenvolvimento Web
+
+# Aula 05 - 22/04/2026
+
+
+
 # Tutorial para Implantação do Ambiente Computacional
-
-
 
 ## 1. Plataforma: Sistema operacional Ubuntu no Windows Subsystem for Linux (WSL)
 
@@ -122,8 +130,6 @@ root@fabio-alien:/mnt/c# sudo apt update && sudo apt upgrade -y
 
 
 
-
-
 ## 4. Configurar usuários no Linux:
 
 ```
@@ -200,6 +206,101 @@ Now using node v20.20.2 (npm v10.8.2)
 #Instalar o Google Gemini CLI
 uab@fabio-alien:~$ sudo npm install -g @google/gemini-cli
 
+
+```
+
+## 
+
+    #Instalar o Docker para poder utilizar o modo sandbox: 
+    uab@fabio-alien:~/projeto-uab$ sudo apt install docker.io -y
+    
+    #Adicionar usuário ao grupo Docker: 
+    uab@fabio-alien:~/projeto-uab$ sudo usermod -aG docker $USER
+    
+    #Aplicar as alterações de configurações de usuários: 
+    uab@fabio-alien:~/projeto-uab$ newgrp docker
+
+## 
+
+## 6. Copiar arquivos do projeto
+
+Nesse ponto, você pode usar o Windows Explorer para copiar os arquivos do seu projeto para uma pasta da instalação Linux. De preferência, crie uma pasta na área do seu usuário. 
+
+Nesse caso, como você fez a cópia com o Windows Explorer, pode ser que o proprietário da pasta seja o usuário root. Então execute o seguinte comando para alterar a propriedade da pasta para o usuário desenvolvedor: 
+
+```
+#sudo chown -R <usuario>:<grupo> <direitorio>
+uab@fabio-alien:~$ sudo chown -R uab:uab projeto-uab
 ```
 
 
+
+## 7. Iniciar Gemini CLI
+
+    #Instalar o Docker para poder utilizar o modo sandbox: 
+    uab@fabio-alien:~/projeto-uab$ sudo apt install docker.io -y
+    
+    #Adicionar usuário ao grupo Docker: 
+    uab@fabio-alien:~/projeto-uab$ sudo usermod -aG docker $USER
+    
+    #Aplicar as alterações de configurações de usuários: 
+    uab@fabio-alien:~/projeto-uab$ newgrp docker
+
+```
+#Iniciar Gemini no modo Sandbox: 
+uab@fabio-alien:~/projeto-uab$ 
+```
+
+- Escolher pasta do projeto
+
+- Autentique com conta Google institucional do IFTO
+
+- Documentação do Gemini CLI: https://geminicli.com/docs/
+  
+  
+
+## 8. Instalação do ambiente de desenvolvimento:
+
+Para implantar o ambiente de desenvolviment inicial, aplique o seguinte prompt, com as devidas adequações e/ou complementos: 
+
+```
+Configure um ambiente de desenvolvimento completo e funcional para o projeto descrito no arquivo doc/03-especs.md. 
+```
+
+
+
+Para sincronizar o ambiente de desenvolvimento com o GitHub, use o seguinte prompt, com as devidas adequações e/ou complementos: 
+
+```
+Proceda as instalações e configurações necessárias para sincornização da pasta ~/projeto-uab com um repositório do GitHub chamado projeto-uab. O nome do usuário do GitHub é ****** e email *******@ifto.edu.br. 
+```
+
+- Crie um repositório no GitHub para receber o projeto.
+
+- Acesse o site do GitHub para gerar um token. Para isso, clique na sua foto de perfil e depois acesse Settings > Developer Settings > Personal access tokens > Tokens. 
+
+- Faça o upload inicial: 
+
+- ```
+  uab@fabio-alien:~/projeto-uab$ git remote set-url origin https://<SEU_TOKEN>@github.com/<SEU_USUARIO>/<SEU_REPOSITORIO>.git
+  ```
+
+- Para adicionar novos arquivos: 
+  
+  ```git
+  uab@fabio-alien:~/projeto-uab$ git add .
+  ```
+  
+  
+
+- Para consolidar versões: 
+  
+  ```
+  uab@fabio-alien:~/projeto-uab$ git commit -m "Descrição das alterações"
+  ```
+
+- Para sincronizar versão local com respositório remoto: 
+
+```
+uab@fabio-alien:~/projeto-uab$ git push https://<SEU_TOKEN>@github.com/<SEU_USUARIO>/<SEU_REPOSITORIO>.git main
+```
