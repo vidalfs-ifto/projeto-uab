@@ -10,6 +10,7 @@
   Flask==3.0.0
   Flask-SQLAlchemy==3.1.1
   Authlib==1.2.1
+  requests
   python-dotenv==1.0.0
   gunicorn==21.2.0
 

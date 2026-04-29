@@ -5,19 +5,17 @@ from app.utils.auth_utils import requer_autenticacao, requer_roles
 
 ticket_controller = Blueprint('ticket', __name__)
 
-@ticket_controller.route
-("/tickets")
+@ticket_controller.route("/tickets")
 @requer_autenticacao
 def lista():
+    tickets = []
     if session["usuario_role"] == "CLIENTE":
         tickets = TicketModel.query.filter_by(cliente_id=session["usuario_id"]).all()
-    else:
-        # Administradores, Proprietários e Atendentes veem todos
+    if session["usuario_role"] == "ATENDENTE":
         tickets = TicketModel.query.all()
     return render_template("tickets/lista.html", tickets=tickets)
 
-@ticket_controller.route
-("/tickets/novo", methods=["POST"])
+@ticket_controller.route("/tickets/novo", methods=["POST"])
 @requer_autenticacao
 @requer_roles(["CLIENTE"])
 def novo():
@@ -31,19 +29,18 @@ def novo():
     )
     db.session.add(novo_ticket)
     db.session.commit()
-    return redirect(url_for("ticket.lista"))
+    return redirect("/tickets")
 
-@ticket_controller.route
-("/tickets/<int:ticket_id>/responder", methods=["POST"])
+@ticket_controller.route("/tickets/<int:ticket_id>/responder", methods=["POST"])
 @requer_autenticacao
-@requer_roles(["ATENDENTE", "ADMINISTRADOR", "PROPRIETARIO"])
+@requer_roles(["ATENDENTE"])
 def responder(ticket_id):
     ticket = TicketModel.query.get_or_404(ticket_id)
     novo_status = request.form.get("status")
     
-    if novo_status:
-        ticket.status = novo_status
-        ticket.atendente_id = session["usuario_id"]
-        db.session.commit()
+    ticket.status = novo_status
+    ticket.atendente_id = session["usuario_id"]
+    db.session.add(ticket)
+    db.session.commit()
         
-    return redirect(url_for("ticket.lista"))
+    return redirect("/tickets")

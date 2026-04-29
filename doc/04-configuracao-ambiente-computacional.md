@@ -1,4 +1,4 @@
-IFTO / UAB - Campus Araguatins
+# IFTO / UAB - Campus Araguatins
 
 # Curso de pós-graduação lato sensu em Desenvolvimento de Sistemas Computacionais
 
@@ -24,7 +24,7 @@ C:\>wsl -l -v
 
 ```
 
-## 3. Implantar nova instalaçã Linux no WSL:
+## 3. Implantar nova instalação Linux no WSL:
 
 Definir o WSL 2 como padrão
 
